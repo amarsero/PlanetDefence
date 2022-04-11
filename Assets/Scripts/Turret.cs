@@ -12,11 +12,13 @@ public class Turret : MonoBehaviour
     public Transform BulletOrigin;
     public float ShootingDelay = 0.2f;
     public float ShootingSpeed = 200;
+    //Prevents triggering actions every frame
+    private bool actionHold = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -27,10 +29,11 @@ public class Turret : MonoBehaviour
             Vector3 pos = Input.GetMouseButton(0) ? Input.mousePosition : new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
             pos = Camera.main.ScreenToWorldPoint(pos);
             pos.z = 0;
-            MoveAndShootWithTouch(pos);
+            ActionOnScreen(pos);
         }
         else
         {
+            actionHold = false;
             int rotation = 0;
 
             if (Input.GetKey(KeyCode.A))
@@ -50,9 +53,23 @@ public class Turret : MonoBehaviour
         }
     }
 
-    private void MoveAndShootWithTouch(Vector3 vector3)
+    private void ActionOnScreen(Vector3 worldPosition)
     {
-        transform.rotation = Quaternion.FromToRotation(Vector3.up  , vector3 - transform.position);
+        IActionable2D actionable = actionHold ? null : Physics2D.OverlapPoint(new Vector2(worldPosition.x, worldPosition.y))?.GetComponent<IActionable2D>();
+        if (actionable != null)
+        {
+            actionable.DoAction();
+            actionHold = true;
+        }
+        else if (!actionHold)
+        {
+            MoveAndShootWithTouch(worldPosition);
+        }
+    }
+
+    private void MoveAndShootWithTouch(Vector3 worldposition)
+    {
+        transform.rotation = Quaternion.FromToRotation(Vector3.up, worldposition - transform.position);
         CommandShoot();
     }
 

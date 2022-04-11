@@ -20,18 +20,16 @@ public class FragBomb : MonoBehaviour
     {
         Instantiate(Explosion, transform.position + Vector3.back, transform.rotation);
         Quaternion rotation = Quaternion.identity;
-        for (int i = 0; i < 24; i++)
+        Quaternion stepRot = Quaternion.Euler(0, 0, 9 /*360 / 40*/);
+        Vector3 smallUp = new Vector3(0, 0.5f);
+        for (int i = 0; i < 40; i++)
         {
-            GameObject small = Instantiate(Fragment, transform.position + rotation * Vector3.up, rotation);
-            small.GetComponent<Bullet>().Lifetime = 3;
-            rotation *= Quaternion.Euler(0, 0, 360 / 24);
+            Bullet small = Instantiate(Fragment, transform.position + rotation * (i % 2 == 1 ? smallUp : Vector3.up), rotation).GetComponent<Bullet>();
+            small.Lifetime = 3;
+            small.Speed = i % 2 == 1 ? 230 : 200;
+            rotation *= stepRot;
         }
         Destroy(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

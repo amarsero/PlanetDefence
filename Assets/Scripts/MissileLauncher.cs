@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileLauncher : MonoBehaviour
+public class MissileLauncher : MonoBehaviour, IActionable2D
 {
     private Missile[] missiles;
     // Start is called before the first frame update
@@ -13,15 +13,6 @@ public class MissileLauncher : MonoBehaviour
         foreach (var missile in missiles)
         {
             missile.transform.parent = null;
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            LaunchMissile();
         }
     }
 
@@ -35,5 +26,10 @@ public class MissileLauncher : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void DoAction()
+    {
+        LaunchMissile();
     }
 }

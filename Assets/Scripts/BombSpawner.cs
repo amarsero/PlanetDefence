@@ -7,6 +7,7 @@ public class BombSpawner : MonoBehaviour
     public GameObject Bomb;
     public float BombDelay = 20f;
     public float Width = 5;
+    public float RandomCheck = 1f;
     
     void Awake()
     {
@@ -15,11 +16,13 @@ public class BombSpawner : MonoBehaviour
 
     IEnumerator SpawnBombs()
     {
-        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, 180));
         while (true)
         {
             yield return new WaitForSeconds(BombDelay);
-            Instantiate(Bomb, transform.position + new Vector3(Random.value * Width - Width / 2,0), rotation);
+            if (UnityEngine.Random.value < RandomCheck)
+            {
+                Instantiate(Bomb, transform.position + new Vector3(Random.value * Width - Width / 2, 0), transform.rotation);
+            }
         }
     }
     private void OnDrawGizmosSelected()

@@ -102,9 +102,14 @@ public class Missile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.gameObject.CompareTag("Enemy"))
+        if (!collision.CompareTag("Enemy"))
         {
             return;
+        }
+        var damagable = collision.GetComponent<IDamageable>();
+        if (damagable != null)
+        {
+            damagable.DoDamage(3);
         }
         Explode();
     }

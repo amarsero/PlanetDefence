@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FragbombLauncher : MonoBehaviour
+public class FragbombLauncher : MonoBehaviour, IActionable2D
 {
     public GameObject Fragbomb;
     private GameObject currentBomb;
@@ -13,15 +13,6 @@ public class FragbombLauncher : MonoBehaviour
         if (currentBomb == null)
         {
             CreateBomb();
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            CommandShoot();
         }
     }
 
@@ -39,8 +30,12 @@ public class FragbombLauncher : MonoBehaviour
     private void CreateBomb()
     {
         currentBomb = null;
-        currentBomb = Instantiate(Fragbomb, transform.position, transform.rotation);
+        currentBomb = Instantiate(Fragbomb, transform.position + Vector3.forward, transform.rotation);
         currentBomb.GetComponent<FragBomb>().enabled = false;
     }
-    
+
+    public void DoAction()
+    {
+        CommandShoot();
+    }
 }
