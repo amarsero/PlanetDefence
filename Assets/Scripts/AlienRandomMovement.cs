@@ -13,7 +13,7 @@ public class AlienRandomMovement : MonoBehaviour, IDamageable
     [SerializeField]
     private float Speed = 5;
 
-    public int Health = 3;
+    public float Health = 3;
     public GameObject Explosion;
 
     // Start is called before the first frame update
@@ -68,7 +68,7 @@ public class AlienRandomMovement : MonoBehaviour, IDamageable
         targetWaypointIndex = Math.Abs(targetWaypointIndex % waypoints.Length);
     }
 
-    public void DoDamage(int damage)
+    public void DoDamage(float damage)
     {
         Health -= damage;
         if (Health <= 0)
