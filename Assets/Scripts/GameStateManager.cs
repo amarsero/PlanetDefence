@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameStates
 {
@@ -21,6 +22,7 @@ public class GameStateManager : MonoBehaviour
     public void GoToPlay()
     {
         State = GameStates.Play;
+        SceneManager.LoadScene("SampleScene 1");
         OnChangeState?.Invoke(GameStates.Play);
     }
 }

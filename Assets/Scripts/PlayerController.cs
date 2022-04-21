@@ -22,40 +22,56 @@ public class PlayerController : MonoBehaviour
         if (Input.touchCount <= 0)
         {
             shootingFingerId = -1;
-            return;
         }
-        if (shootingFingerId != -1)
+        else
         {
-            int currentShootingFingerId = -1;
+            if (shootingFingerId != -1)
+            {
+                int currentShootingFingerId = -1;
+                foreach (var touch in Input.touches)
+                {
+                    if (shootingFingerId == touch.fingerId)
+                    {
+                        currentShootingFingerId = touch.fingerId;
+                        OnShoot?.Invoke(TouchToWorldPostion(touch.position));
+                        break;
+                    }
+                }
+                shootingFingerId = currentShootingFingerId;
+            }
             foreach (var touch in Input.touches)
             {
-                if (shootingFingerId == touch.fingerId)
+                Debug.Log($"Finger id thouched: {touch.fingerId}, state:{touch.phase}");
+                if (touch.phase == TouchPhase.Began)
                 {
-                    currentShootingFingerId = touch.fingerId;
-                    OnShoot?.Invoke(TouchToWorldPostion(touch.position));
-                    break;
-                }
-            }
-            shootingFingerId = currentShootingFingerId;
-        }
-        foreach (var touch in Input.touches)
-        {
-            Debug.Log($"Finger id thouched: {touch.fingerId}, state:{touch.phase}");
-            if (touch.phase == TouchPhase.Began)
-            {
-                IActionable2D actionable;
-                Vector3 pos = TouchToWorldPostion(touch.position);
-                if (null != (actionable = Physics2D.OverlapPoint(new Vector2(pos.x, pos.y))?.GetComponent<IActionable2D>()))
-                {
-                    actionable.DoAction();
-                }
-                else if (shootingFingerId == -1)
-                {
-                    shootingFingerId = touch.fingerId;
-                    OnShoot?.Invoke(pos);
+                    IActionable2D actionable;
+                    Vector3 pos = TouchToWorldPostion(touch.position);
+                    if (null != (actionable = Physics2D.OverlapPoint(new Vector2(pos.x, pos.y))?.GetComponent<IActionable2D>()))
+                    {
+                        actionable.DoAction();
+                    }
+                    else if (shootingFingerId == -1)
+                    {
+                        shootingFingerId = touch.fingerId;
+                        OnShoot?.Invoke(pos);
+                    }
                 }
             }
 
+        }
+        /*For debuggin*/
+        if (Input.GetMouseButton(0))
+        {
+            IActionable2D actionable;
+            Vector3 pos = TouchToWorldPostion(Input.mousePosition);
+            if (null != (actionable = Physics2D.OverlapPoint(new Vector2(pos.x, pos.y))?.GetComponent<IActionable2D>()))
+            {
+                actionable.DoAction();
+            }
+            else
+            {
+                OnShoot?.Invoke(pos);
+            }
         }
     }
     Vector3 TouchToWorldPostion(Vector3 position)
