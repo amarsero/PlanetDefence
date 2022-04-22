@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     Vector3 TouchToWorldPostion(Vector3 position)
     {
         Vector3 pos = new Vector3(position.x, position.y);

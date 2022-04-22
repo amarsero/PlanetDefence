@@ -19,7 +19,7 @@ public class Laser : MonoBehaviour
     [SerializeField] float LineMaxWidth = 0.3f;
     [SerializeField] float DamagePerS = 2f;
     private LineRenderer line;
-    private Image ring;
+    private Material ringo;
 
     // Start is called before the first frame update
     private void Start()
@@ -28,7 +28,7 @@ public class Laser : MonoBehaviour
         line = GetComponent<LineRenderer>();
         line.endWidth = 0;
         line.startWidth = 0;
-        ring = GetComponentInChildren<UnityEngine.UI.Image>();
+        ringo = transform.Find("Ringo").GetComponent<SpriteRenderer>().sharedMaterial;
     }
     private void OnDestroy()
     {
@@ -51,7 +51,7 @@ public class Laser : MonoBehaviour
             if (coll)
             {
                 line.SetPosition(1, new Vector3(0, coll.distance, 0));
-                coll.transform.gameObject.GetComponent<IDamageable>()?.DoDamage(Time.deltaTime*DamagePerS * RaySize / RayMaxSize);
+                coll.transform.gameObject.GetComponent<IDamageable>()?.DoDamage(Time.deltaTime * DamagePerS * RaySize / RayMaxSize);
             }
             else
             {
@@ -60,8 +60,9 @@ public class Laser : MonoBehaviour
         }
         RaySize -= RaySizeChangePerS * Time.deltaTime;
         RaySize = Mathf.Clamp(RaySize, 0, RayMaxSize);
-        ring.fillAmount = Energy / MaxEnergy;
-        ring.color = Color.Lerp(Color.yellow, Color.green, ring.fillAmount);
+        float eneryPerc = Energy / MaxEnergy;
+        ringo.SetFloat("_Arc", 1 - eneryPerc);
+        ringo.color = Color.Lerp(Color.yellow, Color.green, eneryPerc);
     }
 
     private void OnValidate()
