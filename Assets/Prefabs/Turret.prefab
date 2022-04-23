@@ -131,11 +131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb3b517c8a6b1a42b0644b81c6f1667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationSpeed: 90.98
   Bullet: {fileID: 7670587415597316198, guid: e63ecb5dd5ec8234f84a45e58eff8d23, type: 3}
   BulletOrigin: {fileID: 2981311285228016064}
   ShootingDelay: 0.2
-  ShootingSpeed: 400
+  ShootingSpeed: 500
 --- !u!1 &2981311284917843340
 GameObject:
   m_ObjectHideFlags: 0
