@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     static GameManager _instance;
     public static GameManager Instance => _instance ?? throw new System.NullReferenceException("GameManager is Missing!");
     public float AlienSpawnRate { get; set; } = 1;
+
     private void Awake()
     {
         if (_instance != null)
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
             _instance = this;
         }
     }
+
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);

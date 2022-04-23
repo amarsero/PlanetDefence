@@ -101,8 +101,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Explosion: {fileID: 25784504197686366, guid: f1a182848a228ff4f8e5c99c7da77c73, type: 3}
-  Lifetime: 10
+  Lifetime: 12
   Speed: 180
+  Health: 1
 --- !u!50 &6825467874328806835
 Rigidbody2D:
   serializedVersion: 4
