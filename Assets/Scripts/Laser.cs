@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Laser : MonoBehaviour
+public class Laser : MonoBehaviour, IWeapon
 {
     private bool _shooting;
 
@@ -24,15 +24,10 @@ public class Laser : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        PlayerController.Instance.OnShoot += PlayerControllerOnShoot;
         line = GetComponent<LineRenderer>();
         line.endWidth = 0;
         line.startWidth = 0;
         ringo = transform.Find("Ringo").GetComponent<SpriteRenderer>().sharedMaterial;
-    }
-    private void OnDestroy()
-    {
-        PlayerController.Instance.OnShoot -= PlayerControllerOnShoot;
     }
 
     private void Update()
@@ -71,7 +66,7 @@ public class Laser : MonoBehaviour
         GetComponent<LineRenderer>().startWidth = LineMaxWidth;
     }
 
-    private void PlayerControllerOnShoot(Vector3 worldPosition)
+    public void WeaponShoot(Vector3 worldPosition)
     {
         transform.rotation = Quaternion.FromToRotation(Vector3.up, worldPosition - transform.position);
         CommandShoot();

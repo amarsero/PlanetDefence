@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FragbombLauncher : MonoBehaviour, IActionable2D
+public class FragbombLauncher : MonoBehaviour, IActionable2D, IWeapon
 {
     public GameObject Fragbomb;
     private GameObject currentBomb;
@@ -16,6 +16,16 @@ public class FragbombLauncher : MonoBehaviour, IActionable2D
         }
     }
 
+    private void OnEnable()
+    {
+        currentBomb?.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        currentBomb?.SetActive(false);
+    }
+
     public void CommandShoot()
     {
         if (currentBomb == null)
@@ -25,13 +35,20 @@ public class FragbombLauncher : MonoBehaviour, IActionable2D
         var bomb = currentBomb;
         currentBomb = null;
         bomb.GetComponent<FragBomb>().enabled = true;
-        StartCoroutine(CoroutineHelper.WaitSecondsAnd(5, () => CreateBomb()));
+        DG.Tweening.DOVirtual.DelayedCall(5, () => CreateBomb());
     }
+
     private void CreateBomb()
     {
         currentBomb = null;
         currentBomb = Instantiate(Fragbomb, transform.position + Vector3.forward, transform.rotation);
         currentBomb.GetComponent<FragBomb>().enabled = false;
+        currentBomb.SetActive(this.isActiveAndEnabled);
+    }
+
+    public void WeaponShoot(Vector3 worldPosition)
+    {
+        CommandShoot();
     }
 
     public void DoAction()
