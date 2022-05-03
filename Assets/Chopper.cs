@@ -15,7 +15,7 @@ public class Chopper : MonoBehaviour
             transform.position = new Vector3(-transform.position.x, transform.position.y, transform.position.z);
             transform.localScale = new Vector3(-1, 1, 1);
         }
-        float dropTime = Random.value * 4 + 3;
+        float dropTime = Random.value * 2 + 1;
         DG.Tweening.DOVirtual.DelayedCall(dropTime, DropCrate);
         StartCoroutine(CoroutineHelper.WaitSecondsAnd(10, () => Destroy(gameObject)));
     }
