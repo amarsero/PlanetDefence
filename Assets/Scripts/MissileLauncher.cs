@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileLauncher : MonoBehaviour, IActionable2D
+public class MissileLauncher : MonoBehaviour, IActionable2D, IWeapon
 {
-    private Missile[] missiles;
+    private Missile[] missiles = new Missile[] { };
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +13,25 @@ public class MissileLauncher : MonoBehaviour, IActionable2D
         foreach (var missile in missiles)
         {
             missile.transform.parent = null;
+        }
+    }
+
+    private void OnEnable()
+    {
+        foreach (var missile in missiles)
+        {
+            missile.gameObject.SetActive(true);
+        }
+    }
+
+    private void OnDisable()
+    {
+        foreach (var missile in missiles)
+        {
+            if (missile && missile.State == Missile.MissileState.StandBy)
+            {
+                missile?.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -26,6 +45,10 @@ public class MissileLauncher : MonoBehaviour, IActionable2D
                 return;
             }
         }
+    }
+    public void WeaponShoot(Vector3 worldPosition)
+    {
+        LaunchMissile();
     }
 
     public void DoAction()

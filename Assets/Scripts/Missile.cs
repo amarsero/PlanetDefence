@@ -14,8 +14,7 @@ public class Missile : MonoBehaviour
     float speed = 10;
     [SerializeField]
     GameObject Target;
-    [SerializeField]
-    MissileState State;
+    public MissileState State;
     private Rigidbody2D rigid;
     private Vector3 startingPosition;
     [SerializeField]
@@ -25,6 +24,12 @@ public class Missile : MonoBehaviour
     [SerializeField]
     private float flightTime;
     public float MaxFlightTime = 10;
+    private GameObject missileLauncher;
+
+    private void Awake()
+    {
+        missileLauncher = transform.parent.gameObject;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +38,7 @@ public class Missile : MonoBehaviour
         startingPosition = transform.position;
     }
 
-    enum MissileState
+    public enum MissileState
     {
         StandBy,
         GoingUp,
@@ -42,25 +47,6 @@ public class Missile : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.P))
-        {
-            if (Time.timeScale == 0.25f)
-            {
-                Time.timeScale = 0.5f;
-            }
-            else if (Time.timeScale == 0.5f)
-            {
-                Time.timeScale = 0.75f;
-            }
-            else if (Time.timeScale == 0.75f)
-            {
-                Time.timeScale = 1;
-            }
-            else
-            {
-                Time.timeScale = 0.25f;
-            }
-        }
         switch (State)
         {
             case MissileState.GoingUp:
@@ -85,7 +71,12 @@ public class Missile : MonoBehaviour
     {
         var possibleTargets = GameObject.FindGameObjectsWithTag("Enemy")
             .Where(x => !Targeted.Contains(x));
-        if (!possibleTargets.Any())
+        var onlyAliens = possibleTargets.Where(x => x.TryGetComponent(out AlienRandomMovement _));
+        if (onlyAliens.Any())
+        {
+            possibleTargets = onlyAliens;
+        }
+        else if (!possibleTargets.Any())
         {
             possibleTargets = Targeted.Where(x => x != null);
             if (!possibleTargets.Any())
@@ -125,6 +116,10 @@ public class Missile : MonoBehaviour
         rigid.rotation = 0;
         flightTime = 0;
         State = MissileState.StandBy;
+        if (!missileLauncher.gameObject.activeSelf)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void LaunchMissile()
