@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 1433565068974577642}
   - component: {fileID: 1433565068974577643}
   - component: {fileID: 8563422820808758443}
+  - component: {fileID: 827729869}
   m_Layer: 0
   m_Name: Hangar
   m_TagString: Untagged
@@ -233,7 +234,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -249,6 +250,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.56, y: 2.2}
   m_EdgeRadius: 0
+--- !u!114 &827729869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433565068974577621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92da75eff1eb7254090fc21a5cc3f971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 8
+  text: {fileID: 6323117977886321489}
+  spriteRenderer: {fileID: 1433565068974577643}
+  Explosion: {fileID: 25784504197686366, guid: f1a182848a228ff4f8e5c99c7da77c73, type: 3}
 --- !u!1 &2053547631438513054
 GameObject:
   m_ObjectHideFlags: 0
