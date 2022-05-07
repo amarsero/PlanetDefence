@@ -266,6 +266,12 @@ MonoBehaviour:
   text: {fileID: 6323117977886321489}
   spriteRenderer: {fileID: 1433565068974577643}
   Explosion: {fileID: 25784504197686366, guid: f1a182848a228ff4f8e5c99c7da77c73, type: 3}
+  Repetitions: 3
+  AnimationTime: 0.2
+  Ease: 8
+  FromColor: {r: 1, g: 0.49803922, b: 0.5176471, a: 1}
+  ToColor: {r: 1, g: 1, b: 1, a: 1}
+  Yoyo: 0
 --- !u!1 &2053547631438513054
 GameObject:
   m_ObjectHideFlags: 0

@@ -6397,6 +6397,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HangarStartingHealth: 8
   hitScreenEffect: {fileID: 1217478882}
+  Repetitions: 1
+  AnimationTime: 0.2
+  Ease: 1
+  FromColor: {r: 1, g: 1, b: 1, a: 1}
+  ToColor: {r: 1, g: 1, b: 1, a: 0}
+  Yoyo: 0
 --- !u!4 &1462736664
 Transform:
   m_ObjectHideFlags: 0
