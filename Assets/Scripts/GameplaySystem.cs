@@ -19,7 +19,7 @@ public class GameplaySystem : MonoBehaviour
     [Tooltip("Va y vuelve en la animación, en vez de solo ir y volver al principio")]
     public bool Yoyo = false;
     TweenerCore<Color, Color, DG.Tweening.Plugins.Options.ColorOptions> _hitTween;
-    public TweenerCore<Color, Color, DG.Tweening.Plugins.Options.ColorOptions> HitTween;
+    public TweenerCore<Color, Color, DG.Tweening.Plugins.Options.ColorOptions> HitTween => _hitTween ??= CreateTween();
     private void Awake()
     {
         if (_instance != null)
@@ -34,6 +34,7 @@ public class GameplaySystem : MonoBehaviour
 
     public void PlayerTookHit()
     {
+        
         HitTween.Restart();
     }
 
