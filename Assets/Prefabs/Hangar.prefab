@@ -214,7 +214,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: cb43520b00a42de47bb8fade762305e8, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.49803922, b: 0.5176471, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -266,9 +266,9 @@ MonoBehaviour:
   text: {fileID: 6323117977886321489}
   spriteRenderer: {fileID: 1433565068974577643}
   Explosion: {fileID: 25784504197686366, guid: f1a182848a228ff4f8e5c99c7da77c73, type: 3}
-  Repetitions: 3
-  AnimationTime: 0.2
-  Ease: 8
+  Repetitions: 2
+  AnimationTime: 0.1
+  Ease: 3
   FromColor: {r: 1, g: 0.49803922, b: 0.5176471, a: 1}
   ToColor: {r: 1, g: 1, b: 1, a: 1}
   Yoyo: 0

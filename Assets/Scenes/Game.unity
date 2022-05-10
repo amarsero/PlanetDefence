@@ -178,12 +178,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1433565068974577643, guid: 94979012cfa163f48a2ee45ab2b43731, type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1651891564844023033, guid: 94979012cfa163f48a2ee45ab2b43731, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94979012cfa163f48a2ee45ab2b43731, type: 3}
 --- !u!1 &107478765
 GameObject:
@@ -963,24 +958,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1433565068974577643, guid: 94979012cfa163f48a2ee45ab2b43731, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1433565068974577643, guid: 94979012cfa163f48a2ee45ab2b43731, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1433565068974577643, guid: 94979012cfa163f48a2ee45ab2b43731, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1433565068974577643, guid: 94979012cfa163f48a2ee45ab2b43731, type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1651891564844023033, guid: 94979012cfa163f48a2ee45ab2b43731, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94979012cfa163f48a2ee45ab2b43731, type: 3}
 --- !u!1 &912415854
 GameObject:
@@ -6277,7 +6255,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1217478882
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6338,7 +6316,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1217478881}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.6047759, y: 3.5139968, z: 1.6434646}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6398,8 +6376,8 @@ MonoBehaviour:
   HangarStartingHealth: 8
   hitScreenEffect: {fileID: 1217478882}
   Repetitions: 1
-  AnimationTime: 0.2
-  Ease: 1
+  AnimationTime: 0.3
+  Ease: 3
   FromColor: {r: 1, g: 1, b: 1, a: 1}
   ToColor: {r: 1, g: 1, b: 1, a: 0}
   Yoyo: 0
@@ -6411,7 +6389,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1462736662}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6047759, y: -3.5139968, z: -6.6434646}
+  m_LocalPosition: {x: 0, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6881,12 +6859,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1433565068974577643, guid: 94979012cfa163f48a2ee45ab2b43731, type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1651891564844023033, guid: 94979012cfa163f48a2ee45ab2b43731, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94979012cfa163f48a2ee45ab2b43731, type: 3}
 --- !u!1 &2127921604
 GameObject:
