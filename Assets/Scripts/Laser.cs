@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Laser : MonoBehaviour, IWeapon
 {
-    public Transform BulletOrigin;
     [SerializeField] float Energy = 100;
     [SerializeField] float MaxEnergy = 100;
     [SerializeField] bool Reloading = false;
@@ -18,6 +17,8 @@ public class Laser : MonoBehaviour, IWeapon
     [SerializeField] float DamagePerS = 2f;
     private LineRenderer line;
     private Material ringo;
+    private ParticleSystem particles;
+    private float particleSize = 0.3f;
 
     // Start is called before the first frame update
     private void Start()
@@ -26,6 +27,7 @@ public class Laser : MonoBehaviour, IWeapon
         line.endWidth = 0;
         line.startWidth = 0;
         ringo = transform.Find("Ringo").GetComponent<SpriteRenderer>().sharedMaterial;
+        particles = GetComponentInChildren<ParticleSystem>();
     }
 
     private void Update()
@@ -36,15 +38,24 @@ public class Laser : MonoBehaviour, IWeapon
             Energy = MaxEnergy;
             Reloading = false;
         }
-        line.endWidth = LineMaxWidth * RaySize / RayMaxSize;
-        line.startWidth = LineMaxWidth * RaySize / RayMaxSize;
+        float raySizeProportion = RaySize / RayMaxSize;
+        line.endWidth = LineMaxWidth * raySizeProportion;
+        line.startWidth = LineMaxWidth * raySizeProportion;
         if (RaySize > 0)
         {
             RaycastHit2D coll = Physics2D.Raycast(transform.position, transform.localRotation * Vector2.up, 50, LayerMask.GetMask("Enemy"));
             if (coll)
             {
                 line.SetPosition(1, new Vector3(0, coll.distance, 0));
-                coll.transform.gameObject.GetComponent<IDamageable>()?.DoDamage(Time.deltaTime * DamagePerS * RaySize / RayMaxSize);
+                coll.transform.gameObject.GetComponent<IDamageable>()?.DoDamage(Time.deltaTime * DamagePerS * raySizeProportion);
+                particles.gameObject.transform.position = coll.point;
+                var main = particles.main;
+                main.startSize = raySizeProportion * particleSize;
+                if (!particles.isPlaying)
+                {
+                    particles.Play();
+                }
+                particles.time = 0;
             }
             else
             {

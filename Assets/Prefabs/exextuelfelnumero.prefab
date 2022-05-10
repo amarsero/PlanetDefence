@@ -119,6 +119,7 @@ MonoBehaviour:
   Speed: 1.8
   Health: 3
   Explosion: {fileID: 25784504197686366, guid: f1a182848a228ff4f8e5c99c7da77c73, type: 3}
+  SmallHit: {fileID: 1016027771220571843, guid: a187c6b28794c1d42b7cb763a67bd671, type: 3}
 --- !u!58 &919305082680171705
 CircleCollider2D:
   m_ObjectHideFlags: 0

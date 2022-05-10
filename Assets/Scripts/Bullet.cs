@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     public float Speed = 200;
     public static WaitForSeconds delay;
+    public GameObject SmallHit;
 
     void Awake()
     {
@@ -42,6 +43,7 @@ public class Bullet : MonoBehaviour
         {
             damagable.DoDamage(1);
         }
+        Instantiate(SmallHit, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }

@@ -138,3 +138,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Lifetime: 10
   Speed: 200
+  SmallHit: {fileID: 1016027771220571843, guid: a187c6b28794c1d42b7cb763a67bd671, type: 3}
