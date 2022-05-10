@@ -9,11 +9,16 @@ public class FragBomb : MonoBehaviour
     public GameObject Explosion;
     public float Speed = 200;
     public float Lifetime = 3;
-    // Start is called before the first frame update
+    public static WaitForSeconds delay;
+
+    void Awake()
+    {
+        delay ??= new WaitForSeconds(Lifetime);
+    }
     void Start()
     {
         GetComponent<Rigidbody2D>().AddForce(transform.rotation * new Vector2(0, Speed));
-        StartCoroutine(CoroutineHelper.WaitSecondsAnd(Lifetime, () => Explode()));
+        StartCoroutine(CoroutineHelper.WaitAnd(delay, () => Explode()));
     }
 
     private void Explode()

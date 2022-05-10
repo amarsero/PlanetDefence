@@ -10,12 +10,18 @@ public class Bomb : MonoBehaviour, IDamageable
     public float Speed = 200;
 
     public float Health = 1;
+    public static WaitForSeconds delay;
+
+    void Awake()
+    {
+        delay ??= new WaitForSeconds(Lifetime);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         GetComponent<Rigidbody2D>().AddForce(new Vector2(0, -Speed));
-        StartCoroutine(CoroutineHelper.WaitSecondsAnd(Lifetime, () => Destroy(gameObject)));
+        StartCoroutine(CoroutineHelper.WaitAnd(delay, () => Destroy(gameObject)));
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

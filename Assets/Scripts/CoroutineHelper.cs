@@ -10,4 +10,9 @@ public static class CoroutineHelper
         yield return new WaitForSeconds(seconds);
         action();
     }
+    public static IEnumerator WaitAnd(YieldInstruction delay, Action action)
+    {
+        yield return delay;
+        action();
+    }
 }

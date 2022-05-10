@@ -17,7 +17,7 @@ public class Chopper : MonoBehaviour
         }
         float dropTime = Random.value * 2 + 1;
         DG.Tweening.DOVirtual.DelayedCall(dropTime, DropCrate);
-        StartCoroutine(CoroutineHelper.WaitSecondsAnd(10, () => Destroy(gameObject)));
+        StartCoroutine(CoroutineHelper.WaitAnd(Bullet.delay, () => Destroy(gameObject)));
     }
     // Update is called once per frame
     void Update()

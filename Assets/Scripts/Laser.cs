@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class Laser : MonoBehaviour, IWeapon
 {
-    private bool _shooting;
-
     public Transform BulletOrigin;
     [SerializeField] float Energy = 100;
     [SerializeField] float MaxEnergy = 100;

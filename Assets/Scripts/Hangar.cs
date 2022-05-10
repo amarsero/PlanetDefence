@@ -13,6 +13,7 @@ public class Hangar : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI text;
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] GameObject Explosion;
+    [SerializeField] GameObject BlownUp;
     [Header("Hit animation")]
     public int Repetitions = 1;
     public float AnimationTime = 0.3f;
@@ -51,6 +52,7 @@ public class Hangar : MonoBehaviour
         if (Health == 0)
         {
             Instantiate(Explosion, transform.position, transform.rotation);
+            Instantiate(BlownUp, transform.position, transform.rotation);
             Destroy(gameObject);
         }
         else

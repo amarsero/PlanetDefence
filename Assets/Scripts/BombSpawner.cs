@@ -9,8 +9,8 @@ public class BombSpawner : MonoBehaviour
     public float Width = 5;
     public float RandomCheck = 1f;
 
+    static public int BombCount = 0;
     static public int MaxBombs = 50;
-    static public LinkedList<GameObject> Bombs = new LinkedList<GameObject>();
 
     void Awake()
     {
@@ -19,40 +19,46 @@ public class BombSpawner : MonoBehaviour
 
     IEnumerator SpawnBombs()
     {
+        float prevDelay = BombDelay;
+        WaitForSeconds delay = new WaitForSeconds(BombDelay);
         while (true)
         {
-            yield return new WaitForSeconds(BombDelay);
-            if (UnityEngine.Random.value < RandomCheck && CountBombs() < MaxBombs)
+            if (prevDelay != BombDelay)
             {
-                Bombs.AddFirst(Instantiate(Bomb, transform.position + new Vector3(Random.value * Width - Width / 2, 0), transform.rotation));
+                prevDelay = BombDelay;
+                delay = new WaitForSeconds(BombDelay);
+            }
+            yield return delay;
+            if (UnityEngine.Random.value < RandomCheck && BombCount < MaxBombs)
+            {
+                GameObject go = Instantiate(Bomb, transform.position + new Vector3(Random.value * Width - Width / 2, 0), transform.rotation);
+                go.AddComponent<DestroyDetector>().onDestroy = VisitorOnDestroy;
+                BombCount++;
             }
         }
     }
 
-    private int CountBombs()
+    private void VisitorOnDestroy(GameObject destroyed)
     {
-        var current = Bombs.First;
-        int count = 0;
-        while (current != null)
-        {
-            if (current.Value == null)
-            {
-                LinkedListNode<GameObject> toDelete = current;
-                current = current.Next;
-                Bombs.Remove(toDelete);
-            }
-            else
-            {
-                count += 1;
-                current = current.Next;
-            }
-        }
-        return count;
+        BombCount--;
     }
 
     private void OnDrawGizmosSelected()
     {
         Vector3 offset = new Vector3(Width / 2, 0);
         Gizmos.DrawLine(transform.position + offset, transform.position - offset);
+    }
+}
+
+public class DestroyDetector : MonoBehaviour
+{
+    public System.Action<GameObject> onDestroy;
+
+    public DestroyDetector()
+    {
+    }
+    private void OnDestroy()
+    {
+        onDestroy(gameObject);
     }
 }

@@ -9,11 +9,16 @@ public class Bullet : MonoBehaviour
     public float Lifetime = 10;
     [SerializeField]
     public float Speed = 200;
-    // Start is called before the first frame update
+    public static WaitForSeconds delay;
+
+    void Awake()
+    {
+        delay ??= new WaitForSeconds(Lifetime);
+    }
     void Start()
     {
         GetComponent<Rigidbody2D>().AddForce(transform.rotation * new Vector2(0, Speed));
-        StartCoroutine(CoroutineHelper.WaitSecondsAnd(Lifetime, () => OnLifeEnd()));
+        StartCoroutine(CoroutineHelper.WaitAnd(delay, () => OnLifeEnd()));
     }
 
     private void OnLifeEnd()
