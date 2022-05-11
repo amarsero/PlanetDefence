@@ -34,7 +34,7 @@ public class GameplaySystemScriptEditor : Editor
         if (GUILayout.Button("Test hit"))
         {
             DOTweenEditorPreview.Stop();
-            DOTweenEditorPreview.PrepareTweenForPreview(hangar.CreateTween());
+            DOTweenEditorPreview.PrepareTweenForPreview(hangar.CreateHitEffectTween());
             DOTweenEditorPreview.Start();
         }
     }

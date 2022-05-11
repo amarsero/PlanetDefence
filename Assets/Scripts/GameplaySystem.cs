@@ -1,13 +1,18 @@
 using DG.Tweening;
 using DG.Tweening.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameplaySystem : MonoBehaviour
 {
     public int HangarStartingHealth = 8;
     [SerializeField] SpriteRenderer hitScreenEffect;
+    [SerializeField] SpriteRenderer blankScreenEffect;
+
+
     static GameplaySystem _instance;
     public static GameplaySystem Instance => _instance ?? throw new System.NullReferenceException("GameplaySystem is Missing!");
     [Header("Hit animation")]
@@ -19,7 +24,8 @@ public class GameplaySystem : MonoBehaviour
     [Tooltip("Va y vuelve en la animación, en vez de solo ir y volver al principio")]
     public bool Yoyo = false;
     TweenerCore<Color, Color, DG.Tweening.Plugins.Options.ColorOptions> _hitTween;
-    public TweenerCore<Color, Color, DG.Tweening.Plugins.Options.ColorOptions> HitTween => _hitTween ??= CreateTween();
+    public TweenerCore<Color, Color, DG.Tweening.Plugins.Options.ColorOptions> HitTween => _hitTween ??= CreateHitEffectTween();
+
     private void Awake()
     {
         if (_instance != null)
@@ -33,12 +39,11 @@ public class GameplaySystem : MonoBehaviour
     }
 
     public void PlayerTookHit()
-    {
-        
+    {        
         HitTween.Restart();
     }
 
-    public TweenerCore<Color, Color, DG.Tweening.Plugins.Options.ColorOptions> CreateTween()
+    public TweenerCore<Color, Color, DG.Tweening.Plugins.Options.ColorOptions> CreateHitEffectTween()
     {
         Color originalColor = hitScreenEffect.color;
         hitScreenEffect.color = FromColor;
@@ -48,5 +53,36 @@ public class GameplaySystem : MonoBehaviour
            .SetAutoKill(false)
            .SetLoops(Repetitions, Yoyo ? LoopType.Yoyo : LoopType.Restart)
            .OnComplete(() => hitScreenEffect.color = originalColor);
+    }
+
+    public TweenerCore<Color, Color, DG.Tweening.Plugins.Options.ColorOptions> CreateBlankEffectTween()
+    {
+        blankScreenEffect.color = new Color(1,1,1,0);
+        return blankScreenEffect
+           .DOColor(new Color(1, 1, 1, 1), 3)
+           .SetEase(Ease.InCubic)
+           .SetAutoKill(true)
+           .OnComplete(() => blankScreenEffect.color = new Color(1, 1, 1, 0));
+    }
+
+    internal void NukeExploded()
+    {
+        blankScreenEffect.color = new Color(1, 1, 1, 0);
+        TweenerCore<Color, Color, DG.Tweening.Plugins.Options.ColorOptions> tween = null;
+        DontDestroyOnLoad(this);
+        tween = blankScreenEffect
+           .DOColor(new Color(1, 1, 1, 1), 2)
+           .SetEase(Ease.InCubic)
+           .SetAutoKill(false)
+           .OnComplete(() =>
+           {
+               SceneManager.LoadScene("GameOver");
+               tween
+               .SetDelay(1)
+               .SetAutoKill(true)
+               .SetEase(Ease.OutCubic)
+               .OnComplete(() => Destroy(gameObject))
+               .PlayBackwards();
+           });
     }
 }
