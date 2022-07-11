@@ -9,33 +9,26 @@ public class Missile : MonoBehaviour
     private static List<GameObject> Targeted = new List<GameObject>();
 
     [SerializeField]
-    float rotDegPerSec = 60;
+    float rotDegPerSec = 50;
     [SerializeField]
     float speed = 10;
     [SerializeField]
     GameObject Target;
     public MissileState State;
     private Rigidbody2D rigid;
-    private Vector3 startingPosition;
     [SerializeField]
     private float targetAngle;
     [SerializeField]
     private float newRotation;
     [SerializeField]
     private float flightTime;
-    public float MaxFlightTime = 10;
-    private GameObject missileLauncher;
-
-    private void Awake()
-    {
-        missileLauncher = transform.parent.gameObject;
-    }
+    public float MaxFlightTime = 5;
+    private bool invisible = false;
 
     // Start is called before the first frame update
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
-        startingPosition = transform.position;
     }
 
     public enum MissileState
@@ -52,9 +45,8 @@ public class Missile : MonoBehaviour
             case MissileState.GoingUp:
                 {
                     rigid.AddForce(new Vector2(0, 400 * Time.deltaTime));
-                    if (rigid.velocity.y > speed)
+                    if (rigid.velocity.y > (speed / 1.5))
                     {
-                        rigid.velocity = new Vector2(0, speed);
                         State = MissileState.FollowingTarget;
                     }
                 }
@@ -64,6 +56,11 @@ public class Missile : MonoBehaviour
                 break;
             default:
                 break;
+        }
+        if (flightTime > MaxFlightTime && invisible)
+        {
+            DestroySelf();
+            return;
         }
     }
 
@@ -78,10 +75,15 @@ public class Missile : MonoBehaviour
         }
         else if (!possibleTargets.Any())
         {
-            possibleTargets = Targeted.Where(x => x != null);
+            var notNull = Targeted.Where(x => x != null);
+            possibleTargets = notNull.Where(x => UnityEngine.Random.value > 0.5f);
             if (!possibleTargets.Any())
             {
-                return;
+                possibleTargets = notNull;
+                if (!possibleTargets.Any())
+                {
+                    return;
+                }
             }
         }
         Target = possibleTargets
@@ -102,24 +104,15 @@ public class Missile : MonoBehaviour
         {
             damagable.DoDamage(3);
         }
-        Explode();
+        DestroySelf();
     }
 
-    private void Explode()
+    private void DestroySelf()
     {
         Targeted.Remove(Target);
         Target = null;
-        transform.position = startingPosition;
-        transform.rotation = Quaternion.identity;
-        rigid.velocity = Vector2.zero;
-        rigid.angularVelocity = 0;
-        rigid.rotation = 0;
-        flightTime = 0;
-        State = MissileState.StandBy;
-        if (!missileLauncher.gameObject.activeSelf)
-        {
-            gameObject.SetActive(false);
-        }
+
+        Destroy(gameObject);
     }
 
     public void LaunchMissile()
@@ -134,27 +127,18 @@ public class Missile : MonoBehaviour
             FindTarget();
         }
         rigid.velocity += rigid.velocity.normalized * Time.deltaTime;
-        rotDegPerSec += Time.deltaTime * 3;
-        flightTime = Time.deltaTime;
-        if (flightTime > MaxFlightTime)
-        {
-            Explode();
-            return;
-        }
+        rotDegPerSec += Time.deltaTime * 100;
+        flightTime += Time.deltaTime;
         if (Target == null)
         {
             return;
         }
-
-        targetAngle = Vector3.SignedAngle(rigid.velocity, Target.transform.position - transform.position, Vector3.forward);
-        newRotation = Mathf.Clamp(targetAngle, -rotDegPerSec, rotDegPerSec) * Time.deltaTime;
-        rigid.rotation = rigid.rotation + newRotation;
+        Vector3 direction = Target.transform.position - transform.position;
+        float distance = Mathf.Clamp(direction.sqrMagnitude / 4, 0, 1.6f);
+        targetAngle = Vector3.SignedAngle(rigid.velocity, direction + new Vector3(0, -distance), Vector3.forward);
+        newRotation = Mathf.Clamp(targetAngle, -rotDegPerSec, rotDegPerSec) * Time.deltaTime * 3;
+        rigid.rotation += newRotation;
         rigid.velocity = Quaternion.AngleAxis(newRotation, Vector3.forward) * rigid.velocity;
-    }
-
-    internal bool ReadyToLaunch()
-    {
-        return State == MissileState.StandBy;
     }
 
     private void OnDrawGizmos()
@@ -163,10 +147,22 @@ public class Missile : MonoBehaviour
         {
             Vector3 target = Quaternion.AngleAxis(newRotation, Vector3.forward) * rigid.velocity;
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, transform.position + target);
+            var direction = Target.transform.position - transform.position;
+            var distance = Mathf.Clamp(direction.sqrMagnitude, 0, 2);
+            Gizmos.DrawLine(transform.position, transform.position + direction + new Vector3(0, -0.8f * distance));
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, transform.position + Quaternion.AngleAxis(newRotation, Vector3.forward) * rigid.velocity);
             Gizmos.color = Color.red;
             Gizmos.DrawLine(transform.position, Target.transform.position);
         }
+    }
+    private void OnBecameInvisible()
+    {
+        invisible = true;
+    }
+    private void OnBecameVisible()
+    {
+        invisible = false;
     }
 
 }

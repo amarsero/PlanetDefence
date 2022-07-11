@@ -7,18 +7,19 @@ public class FragBomb : MonoBehaviour
 {
     public GameObject Fragment;
     public GameObject Explosion;
-    public float Speed = 200;
+    public float Speed = 14.5f;
     public float Lifetime = 3;
-    public static WaitForSeconds delay;
 
-    void Awake()
-    {
-        delay ??= new WaitForSeconds(Lifetime);
-    }
+    public Vector3 Target { get; internal set; }
+
     void Start()
     {
-        GetComponent<Rigidbody2D>().AddForce(transform.rotation * new Vector2(0, Speed));
-        StartCoroutine(CoroutineHelper.WaitAnd(delay, () => Explode()));
+        Vector3 direction = Target - transform.position;
+        var length = direction.magnitude;
+        var lengthModifier = 1 / Mathf.Clamp(length / 10, 0.6f, 1f);
+        Debug.Log(lengthModifier);
+        GetComponent<Rigidbody2D>().AddForce(Speed * direction.magnitude * direction.normalized * lengthModifier);
+        StartCoroutine(CoroutineHelper.WaitAnd(new WaitForSeconds(Lifetime / lengthModifier), () => Explode()));
     }
 
     private void Explode()

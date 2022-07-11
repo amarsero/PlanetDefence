@@ -2,23 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FragbombLauncher : MonoBehaviour, IActionable2D, IWeapon
+public class FragbombLauncher : MonoBehaviour, IWeapon
 {
+    public float Ammo = 2;
+    public float ShootingDelay = 0.5f;
     public GameObject Fragbomb;
     private GameObject currentBomb;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        if (currentBomb == null)
+        currentBomb?.SetActive(true); 
+        if (currentBomb == null && Ammo > 0)
         {
             CreateBomb();
         }
-    }
-
-    private void OnEnable()
-    {
-        currentBomb?.SetActive(true);
     }
 
     private void OnDisable()
@@ -26,16 +23,22 @@ public class FragbombLauncher : MonoBehaviour, IActionable2D, IWeapon
         currentBomb?.SetActive(false);
     }
 
-    public void CommandShoot()
+    public void CommandShoot(Vector3 targetPosition)
     {
         if (currentBomb == null)
         {
             return;
         }
-        var bomb = currentBomb;
+        GameObject bomb = currentBomb;
         currentBomb = null;
-        bomb.GetComponent<FragBomb>().enabled = true;
-        DG.Tweening.DOVirtual.DelayedCall(5, () => CreateBomb());
+        var frag = bomb.GetComponent<FragBomb>();
+        frag.Target = targetPosition;
+        frag.enabled = true;
+        Ammo -= 1;
+        if (Ammo > 0)
+        {
+            DG.Tweening.DOVirtual.DelayedCall(ShootingDelay, () => CreateBomb());
+        }
     }
 
     private void CreateBomb()
@@ -48,11 +51,6 @@ public class FragbombLauncher : MonoBehaviour, IActionable2D, IWeapon
 
     public void WeaponShoot(Vector3 worldPosition)
     {
-        CommandShoot();
-    }
-
-    public void DoAction()
-    {
-        CommandShoot();
+        CommandShoot(worldPosition);
     }
 }

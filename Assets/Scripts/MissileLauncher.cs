@@ -5,54 +5,53 @@ using UnityEngine;
 
 public class MissileLauncher : MonoBehaviour, IActionable2D, IWeapon
 {
+    public int Ammo = 6;
+    public float ShootingDelay = 0.2f;
+    private float lastShotTime = 0;
+    private int lastShotIndex = 0;
     private Missile[] missiles = new Missile[] { };
-    // Start is called before the first frame update
+
     void Start()
     {
         missiles = GetComponentsInChildren<Missile>();
-        foreach (var missile in missiles)
-        {
-            missile.transform.parent = null;
-        }
-    }
-
-    private void OnEnable()
-    {
-        foreach (var missile in missiles)
-        {
-            missile.gameObject.SetActive(true);
-        }
-    }
-
-    private void OnDisable()
-    {
-        foreach (var missile in missiles)
-        {
-            if (missile && missile.State == Missile.MissileState.StandBy)
-            {
-                missile?.gameObject.SetActive(false);
-            }
-        }
     }
 
     public void LaunchMissile()
     {
-        foreach (Missile missile in missiles)
+        Missile missile = missiles[lastShotIndex++];
+        lastShotIndex %= missiles.Length;
+        lastShotTime = Time.time;
+        GameObject newMissile = Instantiate(missile.gameObject, missile.transform.position, missile.transform.rotation, transform);
+        newMissile.transform.parent = null;
+        newMissile.SetActive(true);
+        newMissile.GetComponent<Missile>().LaunchMissile();
+        Ammo -= 1;
+        if (Ammo < missiles.Length)
         {
-            if (missile.ReadyToLaunch())
-            {
-                missile.LaunchMissile();
-                return;
-            }
+            missile.gameObject.SetActive(false);
         }
     }
+
+    private void CommandShoot()
+    {
+        if (Ammo <= 0)
+        {
+            return;
+        }
+        if (lastShotTime + ShootingDelay > Time.time)
+        {
+            return;
+        }
+        LaunchMissile();
+    }
+
     public void WeaponShoot(Vector3 worldPosition)
     {
-        LaunchMissile();
+        CommandShoot();
     }
 
     public void DoAction()
     {
-        LaunchMissile();
+        CommandShoot();
     }
 }
