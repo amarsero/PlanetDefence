@@ -9,7 +9,7 @@ public class WeaponSelector : MonoBehaviour
     public Laser Laser;
     public FragbombLauncher FragbombLauncher;
     public MissileLauncher MissileLauncher;
-    public IWeapon SelectedWeapon;
+    public Weapon SelectedWeapon;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,14 +25,15 @@ public class WeaponSelector : MonoBehaviour
         SwitchToWeapon(SelectedWeapon);
     }
 
-    internal void SwitchToWeapon(IWeapon weapon)
+    internal void SwitchToWeapon(Weapon weapon)
     {
         SelectedWeapon = weapon;
-        if (!object.ReferenceEquals(Turret,SelectedWeapon)) Turret.gameObject.SetActive(false);
-        if (!object.ReferenceEquals(Laser, SelectedWeapon)) Laser.gameObject.SetActive(false);
-        if (!object.ReferenceEquals(FragbombLauncher, SelectedWeapon)) FragbombLauncher.gameObject.SetActive(false);
-        if (!object.ReferenceEquals(MissileLauncher, SelectedWeapon)) MissileLauncher.gameObject.SetActive(false);
-        SelectedWeapon.gameObject.SetActive(true);
+        Turret.Deselect();
+        Laser.Deselect();
+        FragbombLauncher.Deselect();
+        MissileLauncher.Deselect();
+
+        SelectedWeapon.Select();
     }
 
     private void OnDestroy()

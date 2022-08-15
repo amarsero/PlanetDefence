@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileLauncher : MonoBehaviour, IActionable2D, IWeapon
+public class MissileLauncher : Weapon, IActionable2D
 {
     public int Ammo = 6;
     public float ShootingDelay = 0.2f;
@@ -45,7 +45,7 @@ public class MissileLauncher : MonoBehaviour, IActionable2D, IWeapon
         LaunchMissile();
     }
 
-    public void WeaponShoot(Vector3 worldPosition)
+    override public void WeaponShoot(Vector3 worldPosition)
     {
         CommandShoot();
     }
@@ -53,5 +53,10 @@ public class MissileLauncher : MonoBehaviour, IActionable2D, IWeapon
     public void DoAction()
     {
         CommandShoot();
+    }
+
+    override public bool CanShoot()
+    {
+        return Ammo > 0;
     }
 }

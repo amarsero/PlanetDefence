@@ -6,12 +6,18 @@ public class UIButton : MonoBehaviour, IActionable2D
 {
     public GameObject Weapon;
     private WeaponSelector weaponSelector;
-    private IWeapon weaponScript;
+    private Weapon weaponScript;
+    public Sprite Seleccionado;
+    public Sprite ConMunicion;
+    public Sprite SinMunicion;
+    public SpriteRenderer Renderer;
 
-    private void Start()
+    private void Awake()
     {
         weaponSelector = transform.parent.parent.GetComponentInChildren<WeaponSelector>();
-        weaponScript = Weapon.GetComponent<IWeapon>();
+        weaponScript = Weapon.GetComponent<Weapon>();
+        weaponScript.SetButton(this);
+        Renderer = GetComponent<SpriteRenderer>();
     }
     public void DoAction()
     {

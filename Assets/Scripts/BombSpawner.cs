@@ -6,9 +6,9 @@ public class BombSpawner : MonoBehaviour
 {
     public GameObject Bomb;
     public float BombDelay = 20f;
-    public float Width = 5;
+    public bool BarVertical = false;
+    public float BarWidth = 5;
     public float RandomCheck = 1f;
-    [SerializeField]
     float chance = 0;
 
     static public int BombCount = 0;
@@ -38,7 +38,9 @@ public class BombSpawner : MonoBehaviour
             }
             if (UnityEngine.Random.value < chance)
             {
-                GameObject go = Instantiate(Bomb, transform.position + new Vector3(Random.value * Width - Width / 2, 0), transform.rotation);
+                float random = Random.value * BarWidth - BarWidth / 2;
+                Vector3 offset = BarVertical ? new Vector3(0, random) : new Vector3(random, 0);
+                GameObject go = Instantiate(Bomb, transform.position + offset, transform.rotation);
                 go.AddComponent<DestroyDetector>().onDestroy = VisitorOnDestroy;
                 BombCount++;
                 if (chance > RandomCheck)
@@ -64,7 +66,7 @@ public class BombSpawner : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Vector3 offset = new Vector3(Width / 2, 0);
+        Vector3 offset = BarVertical ? new Vector3(0, BarWidth / 2) : new Vector3(BarWidth / 2, 0);
         Gizmos.DrawLine(transform.position + offset, transform.position - offset);
     }
 }

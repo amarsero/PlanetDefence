@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FragbombLauncher : MonoBehaviour, IWeapon
+public class FragbombLauncher : Weapon
 {
     public float Ammo = 2;
     public float ShootingDelay = 0.5f;
@@ -49,8 +50,13 @@ public class FragbombLauncher : MonoBehaviour, IWeapon
         currentBomb.SetActive(this.isActiveAndEnabled);
     }
 
-    public void WeaponShoot(Vector3 worldPosition)
+    override public void WeaponShoot(Vector3 worldPosition)
     {
         CommandShoot(worldPosition);
+    }
+
+    public override bool CanShoot()
+    {
+        return Ammo > 0;
     }
 }

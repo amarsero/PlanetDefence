@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AlienRandomMovement : MonoBehaviour, IDamageable
+public class AlienRandomMovement : MonoBehaviour
 {
     private int targetWaypointIndex;
     private Vector3 targetPosition;
@@ -12,9 +12,6 @@ public class AlienRandomMovement : MonoBehaviour, IDamageable
     Vector3[] waypoints;
     [SerializeField]
     private float Speed = 5;
-
-    public float Health = 3;
-    public GameObject Explosion;
 
     // Start is called before the first frame update
     void Start()
@@ -68,18 +65,4 @@ public class AlienRandomMovement : MonoBehaviour, IDamageable
         targetWaypointIndex = Math.Abs(targetWaypointIndex % waypoints.Length);
     }
 
-    public void DoDamage(float damage)
-    {
-        Health -= damage;
-        if (Health <= 0)
-        {
-            Explode();
-        }
-    }
-
-    private void Explode()
-    {
-        Instantiate(Explosion, transform.position, transform.rotation).transform.localScale = Vector3.one * 2;
-        Destroy(gameObject);
-    }
 }

@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Laser : MonoBehaviour, IWeapon
+public class Laser : Weapon
 {
     [SerializeField] float Energy = 100;
     [SerializeField] float MaxEnergy = 100;
@@ -74,8 +75,7 @@ public class Laser : MonoBehaviour, IWeapon
         GetComponent<LineRenderer>().endWidth = LineMaxWidth;
         GetComponent<LineRenderer>().startWidth = LineMaxWidth;
     }
-
-    public void WeaponShoot(Vector3 worldPosition)
+    override public void WeaponShoot(Vector3 worldPosition)
     {
         transform.rotation = Quaternion.FromToRotation(Vector3.up, worldPosition - transform.position);
         CommandShoot();
@@ -94,5 +94,10 @@ public class Laser : MonoBehaviour, IWeapon
             Reloading = true;
             Energy = 0;
         }
+    }
+
+    public override bool CanShoot()
+    {
+        return Energy > 0;
     }
 }
