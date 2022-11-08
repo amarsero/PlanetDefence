@@ -42,6 +42,15 @@ public class FragbombLauncher : Weapon
         }
     }
 
+    internal void GiveAmmo()
+    {
+        Ammo += 2;
+        if (Ammo == 2)
+        {
+            CreateBomb();
+        }
+    }
+
     private void CreateBomb()
     {
         currentBomb = null;

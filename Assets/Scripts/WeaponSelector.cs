@@ -10,6 +10,7 @@ public class WeaponSelector : MonoBehaviour
     public FragbombLauncher FragbombLauncher;
     public MissileLauncher MissileLauncher;
     public Weapon SelectedWeapon;
+    public static WeaponSelector Instance { get; private set; }
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,7 @@ public class WeaponSelector : MonoBehaviour
             SelectedWeapon = Turret;
         }
         SwitchToWeapon(SelectedWeapon);
+        Instance = this;
     }
 
     internal void SwitchToWeapon(Weapon weapon)

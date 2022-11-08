@@ -6,16 +6,16 @@ using UnityEngine.UI;
 
 public class Laser : Weapon
 {
-    [SerializeField] float Energy = 100;
-    [SerializeField] float MaxEnergy = 100;
+    [SerializeField] public float Energy = 100;
+    [SerializeField] public float MaxEnergy = 200;
     [SerializeField] bool Reloading = false;
     [SerializeField] float EnergyConsumePerS = 60;
-    [SerializeField] float EnergyRechargePerS = 40;
+    [SerializeField] float EnergyRechargePerS = 20;
     [SerializeField] float RaySize = 0;
     [SerializeField] float RayMaxSize = 5;
     [SerializeField] float RaySizeChangePerS = 5;
     [SerializeField] float LineMaxWidth = 0.3f;
-    [SerializeField] float DamagePerS = 2f;
+    [SerializeField] float DamagePerS = 4f;
     private LineRenderer line;
     private Material ringo;
     private ParticleSystem particles;
@@ -29,6 +29,11 @@ public class Laser : Weapon
         line.startWidth = 0;
         ringo = transform.Find("Ringo").GetComponent<SpriteRenderer>().sharedMaterial;
         particles = GetComponentInChildren<ParticleSystem>();
+    }
+
+    internal void GiveAmmo()
+    {
+        Energy = Mathf.Min(Energy + MaxEnergy * 0.5f, MaxEnergy);
     }
 
     private void Update()

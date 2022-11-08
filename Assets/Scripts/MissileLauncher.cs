@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MissileLauncher : Weapon, IActionable2D
@@ -29,6 +30,25 @@ public class MissileLauncher : Weapon, IActionable2D
         if (Ammo < missiles.Length)
         {
             missile.gameObject.SetActive(false);
+        }
+    }
+
+    internal void GiveAmmo()
+    {
+        Ammo += 4;
+        int count = missiles.Count(x => x.enabled);
+        foreach (var missile in missiles.Concat(missiles).Skip(lastShotIndex))
+        {
+            if (Ammo >= count)
+            {
+                return;
+            }
+            if (missile.enabled)
+            {
+                continue;
+            }
+            missile.enabled = true;
+            count += 1;
         }
     }
 

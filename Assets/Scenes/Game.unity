@@ -758,7 +758,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &352332425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1101,7 +1101,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &794018471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6373,7 +6373,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1048445220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7066,6 +7066,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8333482141820215028}
     m_Modifications:
+    - target: {fileID: 1691224112704333401, guid: fbb6e2aa3656c3d4688262fcce561c24, type: 3}
+      propertyPath: Energy
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 1691224112704333401, guid: fbb6e2aa3656c3d4688262fcce561c24, type: 3}
+      propertyPath: MaxEnergy
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 1691224112704333401, guid: fbb6e2aa3656c3d4688262fcce561c24, type: 3}
+      propertyPath: DamagePerS
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1691224112704333401, guid: fbb6e2aa3656c3d4688262fcce561c24, type: 3}
+      propertyPath: EnergyRechargePerS
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1691224112704333405, guid: fbb6e2aa3656c3d4688262fcce561c24, type: 3}
       propertyPath: m_Name
       value: Laser
